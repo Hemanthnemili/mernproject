@@ -4,12 +4,14 @@ import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Signup from "./pages/Signup";
 import Signin from "./pages/Signin";
+import Header from "./components/Header";
 
 export default function App() {
   console.log("hemanth");
   return (
     <div>
       <Router>
+        <Header />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
