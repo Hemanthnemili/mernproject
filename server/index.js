@@ -1,9 +1,17 @@
 import express from "express";
 import connectDb from "../server/db/connectDb.js";
+import userRouter from "../server/routes/userRoute.js";
+import authRouter from "../server/routes/authRoute.js";
+import cors from "cors";
 connectDb();
 
 const app = express();
+app.use(express.json());
+app.use(cors());
+
+app.use("/auth", authRouter);
+app.use("/user", userRouter);
 
 app.listen(5000, () => {
-  console.log("listening on port");
+  console.log("listening on port 5000");
 });
