@@ -41,9 +41,7 @@ const signIn = async (req, res) => {
     generateTokenAndSetCookie(user._id, res);
 
     res.status(200).json({
-      id: user._id,
-      username: user.username,
-      email: user.email,
+      user,
     });
   } catch (error) {
     res.status(404).json({ error: error.message });

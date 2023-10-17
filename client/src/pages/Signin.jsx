@@ -1,9 +1,13 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { signInState, signInSuccess } from "../redux/user/userSlice";
 
 function Signin() {
   const [loginData, setLoginData] = useState({});
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handleChange = (e) => {
     setLoginData({
       ...loginData,
@@ -15,6 +19,7 @@ function Signin() {
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
+      dispatch(signInState());
       const res = await fetch("http://localhost:5000/auth/signin", {
         method: "POST",
         headers: {
@@ -23,6 +28,7 @@ function Signin() {
         body: JSON.stringify(loginData),
       });
       const data = await res.json();
+      dispatch(signInSuccess(data));
       console.log(data);
       localStorage.setItem("loginToken", JSON.stringify(data));
       navigate("/");
@@ -56,6 +62,13 @@ function Signin() {
           LogIn
         </button>
       </form>
+
+      <div className="flex gap-2 mt-5">
+        <p>Don&apos;t have an Account ? </p>
+        <Link to="/signup">
+          <span>SignUp</span>
+        </Link>
+      </div>
     </div>
   );
 }
