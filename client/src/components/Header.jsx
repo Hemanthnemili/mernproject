@@ -1,7 +1,25 @@
 import { AiOutlineSearch } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Header() {
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/auth/logout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(),
+      });
+      const data = await res.json();
+      localStorage.removeItem("loginToken");
+      navigate("/signin");
+      console.log(data);
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
   return (
     <header className="bg-slate-200 shadow-md">
       <div className="flex justify-between p-3 items-center max-w-6xl mx-auto">
@@ -36,7 +54,7 @@ function Header() {
           </Link>
         </ul>
 
-        <button> Logout </button>
+        <button onClick={handleLogout}> Logout </button>
       </div>
     </header>
   );
