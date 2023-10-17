@@ -44,7 +44,7 @@ const signIn = async (req, res) => {
       user,
     });
   } catch (error) {
-    res.status(404).json({ error: error.message });
+    res.status(404).json({ error: "Username or Password is required" });
   }
 };
 

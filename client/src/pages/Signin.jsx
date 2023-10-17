@@ -2,10 +2,12 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { signInState, signInSuccess } from "../redux/user/userSlice";
+import OAuth from "../components/OAuth";
+import useShowToast from "../hooks/useShowToast";
 
 function Signin() {
   const [loginData, setLoginData] = useState({});
-
+  const showToast = useShowToast();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleChange = (e) => {
@@ -28,6 +30,10 @@ function Signin() {
         body: JSON.stringify(loginData),
       });
       const data = await res.json();
+      if (data.error) {
+        showToast("Error", data.error, "error");
+        return;
+      }
       dispatch(signInSuccess(data));
       console.log(data);
       localStorage.setItem("loginToken", JSON.stringify(data));
@@ -61,12 +67,13 @@ function Signin() {
         >
           LogIn
         </button>
+        <OAuth />
       </form>
 
       <div className="flex gap-2 mt-5">
         <p>Don&apos;t have an Account ? </p>
         <Link to="/signup">
-          <span>SignUp</span>
+          <span className="text-blue-700 text-semibold font-bold">SignUp</span>
         </Link>
       </div>
     </div>
