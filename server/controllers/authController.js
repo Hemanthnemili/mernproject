@@ -57,4 +57,37 @@ const logout = async (req, res) => {
   }
 };
 
-export { signUp, signIn, logout };
+const google = async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    if (user) {
+      generateTokenAndSetCookie(user._id, res);
+    } else {
+      const generatePassword =
+        Math.random.toString(36).slice(-8) + Math.random.toString(36).slice(-8);
+      const hashPassword = bcrypt.hashSync(generatePassword, 10);
+      const newUser = new User({
+        username:
+          req.body.name.split(" ").join("").toLowerCase() +
+          Math.random().toString(36).slice(-4),
+        email: req.body.email,
+        password: hashPassword,
+        avatar: req.body.photoURL,
+      });
+      await newUser.save();
+      if (newUser) {
+        generateTokenAndSetCookie(newUser._id, res);
+        res.status(201).json({
+          _id: newUser._id,
+          username: newUser.username,
+          email: newUser.email,
+          avatar: newUser.avatar,
+        });
+      }
+    }
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+};
+
+export { signUp, signIn, logout, google };
