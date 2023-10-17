@@ -1,5 +1,5 @@
-import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import userReducer from "../redux/user/userSlice";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import userReducer from "./user/userSlice";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
@@ -14,12 +14,11 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-  reducer: { persistedReducer },
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
     }),
 });
 
-//middleware we use this because we will not get any errors for serialization
 export const persistor = persistStore(store);

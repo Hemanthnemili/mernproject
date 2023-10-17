@@ -72,7 +72,7 @@ const google = async (req, res) => {
           Math.random().toString(36).slice(-4),
         email: req.body.email,
         password: hashPassword,
-        avatar: req.body.photoURL,
+        avatar: req.body.photo,
       });
       await newUser.save();
       if (newUser) {

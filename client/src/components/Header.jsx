@@ -1,7 +1,9 @@
 import { AiOutlineSearch } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Header() {
+  const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const handleLogout = async () => {
     try {
@@ -49,8 +51,16 @@ function Header() {
               About
             </li>
           </Link>
-          <Link to="/signin">
-            <li>Sign In</li>
+          <Link to="/profile">
+            {currentUser ? (
+              <img
+                className="rounded-full h-7 w-7 object-cover"
+                src={currentUser.avatar}
+                alt="profile"
+              />
+            ) : (
+              <li>Sign In</li>
+            )}
           </Link>
         </ul>
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { signInState, signInSuccess } from "../redux/user/userSlice";
+import { signInStart, signInSuccess } from "../redux/user/userSlice";
 import OAuth from "../components/OAuth";
 import useShowToast from "../hooks/useShowToast";
 
@@ -21,7 +21,7 @@ function Signin() {
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
-      dispatch(signInState());
+      dispatch(signInStart());
       const res = await fetch("http://localhost:5000/auth/signin", {
         method: "POST",
         headers: {
