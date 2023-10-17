@@ -12,21 +12,23 @@ function Signup() {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const res = await fetch("http://localhost:5000/auth/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(fromData),
-    });
-    const data = await res.json();
-    navigate("/signin");
-    console.log(data);
-    if (data.success === true) {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
       setLoading(true);
-      return;
+      const res = await fetch("http://localhost:5000/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(fromData),
+      });
+      const data = await res.json();
+      localStorage.setItem("token", JSON.stringify(data));
+      navigate("/signin");
+      console.log(data);
+    } catch (error) {
+      console.log(error.message);
     }
   };
   return (

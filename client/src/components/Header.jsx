@@ -35,6 +35,8 @@ function Header() {
             <li>Sign In</li>
           </Link>
         </ul>
+
+        <button> Logout </button>
       </div>
     </header>
   );
