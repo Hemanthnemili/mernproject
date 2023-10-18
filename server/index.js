@@ -3,10 +3,13 @@ import connectDb from "../server/db/connectDb.js";
 import userRouter from "../server/routes/userRoute.js";
 import authRouter from "../server/routes/authRoute.js";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 connectDb();
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
+
 app.use(cors());
 
 app.use("/auth", authRouter);
